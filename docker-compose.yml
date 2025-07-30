@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  ecovision-ai:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_URL=postgresql://ecovision:password@postgres:5432/ecovision
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+      - ./logs:/app/logs
+
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=ecovision
+      - POSTGRES_USER=ecovision
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  streamlit:
+    build: .
+    command: streamlit run dashboard/app.py --server.port=8501 --server.address=0.0.0.0
+    ports:
+      - "8501:8501"
+    depends_on:
+      - ecovision-ai
+    environment:
+      - API_BASE_URL=http://ecovision-ai:8000
+
+volumes:
+  postgres_data:
+  redis_data:
