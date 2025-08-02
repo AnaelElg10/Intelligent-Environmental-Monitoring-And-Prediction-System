@@ -225,12 +225,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - iNaturalist for biodiversity datasets
 - The open-source ML community for foundational tools
 
-## 📞 Contact
-
-**Your Name** - your.email@example.com
-
-Project Link: [https://github.com/yourusername/ecovision-ai](https://github.com/yourusername/ecovision-ai)
-
 ---
 
 *"Using AI to protect our planet for future generations"* 🌱
